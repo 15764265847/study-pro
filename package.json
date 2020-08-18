@@ -11,6 +11,7 @@
   "dependencies": {
     "folktale": "^2.3.2",
     "lodash": "^4.17.20",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "promises-aplus-tests": "^2.1.2"
   }
 }

@@ -132,3 +132,8 @@ function resolvePromise(promise2, x, resolve, reject) {
 }
 
 module.exports = MyPromise;
+
+let hanshu = () => {}
+
+Promise.then(1).then(2).then(value => { Promise.resolve(3) }).then(console.log);
+Promise.then(1).then(2).then(hanshu()).then(console.log);
