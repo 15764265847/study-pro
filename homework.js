@@ -254,8 +254,8 @@ class MyPromise {
         return new MyPromise(resolve => resolve(value));
     }
     static reject(reason) {
-        if (value instanceof MyPromise) {
-            return value;
+        if (reason instanceof MyPromise) {
+            return reason;
         }
         return new MyPromise((resolve, reject) => {
             reject(reason);
@@ -273,9 +273,9 @@ function resolvePromise(promise2, x, resolve, reject) {
     return resolve(x);
 }
 
-Promise.defer = Promise.deferred = function () {
+MyPromise.defer = MyPromise.deferred = function () {
     let dfd = {}
-    dfd.promise = new Promise((resolve,reject)=>{
+    dfd.promise = new MyPromise((resolve,reject)=>{
         dfd.resolve = resolve;
         dfd.reject = reject;
     });
@@ -286,5 +286,5 @@ let p1 = new MyPromise((resolve, reject) => {
     reject(1);
 }).then(console.log, console.log)
 
-module.exports = Promise;
+module.exports = MyPromise;
 
