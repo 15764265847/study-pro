@@ -95,8 +95,8 @@ class MyPromise {
         });
     };
     static reject(reason) {
-        if (value instanceof MyPromise) {
-            return value;
+        if (reason instanceof MyPromise) {
+            return reason;
         }
         return new MyPromise((resolve, reject) => {
             reject(reason);

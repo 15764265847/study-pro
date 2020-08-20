@@ -106,8 +106,8 @@ class MyPromise{
         });
     }
     static reject(reason) {
-        if (value instanceof MyPromise) {
-            return value;
+        if (reason instanceof MyPromise) {
+            return reason;
         }
         return new MyPromise((resolve, reject) => {
             reject(reason);
@@ -171,12 +171,12 @@ function resolvePromise(promise2, x, resolve, reject) {
     resolve(x);
 }
 
-Promise.defer = Promise.deferred = function () {
+MyPromise.defer = MyPromise.deferred = function () {
     let dfd = {}
-    dfd.promise = new Promise((resolve,reject)=>{
+    dfd.promise = new MyPromise((resolve,reject)=>{
         dfd.resolve = resolve;
         dfd.reject = reject;
     });
     return dfd;
 }
-module.exports = Promise;
+module.exports = MyPromise;
