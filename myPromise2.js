@@ -44,7 +44,7 @@ class MyPromise{
         failCallback = typeof failCallback === 'function' ? failCallback : reason => {throw reason};
         let promise2 = new MyPromise((resolve, reject) => {
             // 在该方法中我们无法直接获取到当前promise2对象，所以我们使用异步，即setTimeout
-            // 此处setTimeout放到if里面和放到if外面是没有差别的
+            // 此处setTimeout放到if里面和放到if外面逻辑上是没有差别的
             if (this.status === FULFILLED) {
                 setTimeout(() => {
                     try {
@@ -153,7 +153,7 @@ class MyPromise{
         return this.then(value => {
             return MyPromise.resolve(callback()).then(() => value);
         }, reason => {
-            return MyPromise.reject(callback()).then(null, () => reason);
+            return MyPromise.resolve(callback()).then(null, () => {throw reason});
         })
     }
 }
