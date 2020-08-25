@@ -1,4 +1,6 @@
 // @flow
+// 执行flow init 初始化配置文件
+// 执行 flow-remove-types [需编译的文件] -d [编译到的文件]
 
 // 表示参数类型都是number
 function sum(a: number, b: number) { 
