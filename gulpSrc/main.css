@@ -1,0 +1,12 @@
+.wa {
+    background: #34cf34;
+    color: #3465cf;
+    line-height: 30px;
+    height: 30px;
+}
+.li {
+    line-height: 40px;
+    height: 40px;
+    color: #000;
+    background: #ccc;
+}
