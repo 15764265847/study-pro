@@ -140,9 +140,9 @@ const font  = () => {
 }
 
 const public  = () => {
-    return src(`public/**`, baseSrc)
+    return src(`public/**`, { base: 'public' })
         .pipe(imagemin())
-        .pipe(dest(dist));
+        .pipe(dest(dist + '/public'));
 }
 
 const serve = () => {
@@ -170,7 +170,7 @@ const serve = () => {
 }
 
 const changeDepend = () => {
-    return src(`${ temp }/*.html`, baseSrc)
+    return src(`temp/*.html`, { base: 'temp' })
         .pipe(useref({ searchPath: [temp, '.'] }))
         .pipe(plugins.if(/\.js$/, uglify()))
         .pipe(plugins.if(/\.css$/, cleanCss()))
@@ -179,7 +179,7 @@ const changeDepend = () => {
             minifyCSS: true,
             minifyJS: true
         })))
-        .pipe(dest(dist));
+        .pipe(dest('dist'));
 }
 
 const clean = () => {
