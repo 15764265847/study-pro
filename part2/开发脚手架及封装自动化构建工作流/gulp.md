@@ -133,3 +133,43 @@ gulp
             exports.dealCss = () => {
                 return src('gulpSrc/*.css').pipe(cleanCss()).pipe(rename({ extname: '.min.css' })).pipe(dest('gulpDist'))
             }
+
+
+将gulpfile.js和gulp开发成一个单独的npm模块，以供我们其他项目使用该模块，此处以我们开发的gulp-stream-yds模块为例
+一、开发过程中如何使用gulp-stream-yds：
+    1、在gulp-stream-yds项目中，yarn link一下全局化gulp-stream-yds命令
+    2、在使用的项目中yarn link 'gulp-stream-yds'
+二、在我们直接使用gulpfile.js的项目中我们安装许多gulp工作流的开发依赖，但是当我们把这些东西集成到gulp-stream-yds项目中时，这些开发依赖就会成为工作依赖，即在gulp-stream-yds项目中这些依赖应该安装到dependencies中
+三、数据，在gulpfile.js中我们使用data作为我们使用模板引擎填充到需要编译的文件中的，即这些数据都应该属于我们使用gulp-stream-yds的项目的，这些数据应该是作为我们配置传入到gulp-stream-yds中的，我们需要一个配置文件，定义配置文件为gsy.config.js，意思是gulp-stream-yds的配置文件
+四、关于@babel/preset-env使用的问题，在gulpfile.js中我们使用的字符串，此时使用就会直接从我们当前项目中寻找，而不是从gulp-stream-yds寻找，此时如果当前项目没有安装@babel/preset-env就会报错，所以在gulp-stream-yds模块中我们需要使用require的方式载入模块进行使用，这样他就会直接从gulp-stream-yds的依赖中寻找
+五、文件路径
+    我们要把gulp-stream-yds中使用的路径抽出来作为配置项使用，gulp-stream-yds中的路径是以使用项目的根目录来作为使用路径的，以当前项目study-pro为例，在gulp-stream-yds中使用gulpSrc/assets/scripts/*.js，则是从study-pro直接开始查找，即他的寻找路径最终为study-pro/gulpSrc/assets/scripts/*.js
+六、假设当前目录没有gulpfile.js我们该怎么使用
+    PS：一般来讲我们开发的模块的代码的主入口应该放到lib目录下，cli的文件放到bin目录下
+    1>创建一个bin目录，然后创建一个gulp-stream-yds.js文件，作为cli的执行入口
+    2>在package.json中添加"bin": "bin/gulp-stream-yds.js"
+        PS："bin"也可以配置为一个对象"bin": {yds: "bin/gulp-stream-yds.js"}，该对象中的key将作为执行的命令，此示例中yds将作为改模跨跌执行命令，不指定的话应该是我们的模块的名称！！！
+    3>我们在my-cli中提到过，cli入口文件必须需要添加一个头信息 #!/usr/bin/env node，然后需要将入口的文件的权限使用chmod 755 bin/gulp-stream-yds.js修改755才可以
+    4>yarn link一下
+    5>gulp-stream-yds.js如下
+        // 添加命令行参数，因为我们执行yarn gulp [任务名称]的时候可以在后面添加--cwd和--gulpfile两个参数
+        // --cwd [路径] 指定的是我们命令行的执行目录
+        // --gulpfile 指定的就是gulpfile.js所在的目录
+        // 添加命令行执行目录
+        process.argv.push('--cwd');
+        process.argv.push(process.cwd());
+        // 添加hulpfile.js所在目录
+        process.argv.push('--gulpfile');
+        // require.resolve方法是用来找到模块对应的路径
+        // 此处可以直接传'..'，因为直接传..是找到上册目录，这里上层目录就是根目录，此时就会自动查找package.json中配置的main属性对应的文件
+        process.argv.push(require.resolve('../lib/index'));
+
+        // gulp/bin/gulp中是使用require('gulp-cli')()进行执行的
+        // 我们这里直接require一下'gulp/bin/gulp'，就会直接执行require('gulp-cli')()
+        require('gulp/bin/gulp');
+    6>yarn publish --rehistry=https://regitry.yarnpkg.com 发布
+        PS:这里注意一个问题就是此时只会发布根目录下的文件（不包含目录），以及package.json中配置的files下的目录及其中的文件，但是我们这里有bin目录所以需要配置files为["bin", "lib"]，files默认只有"lib"
+        files: ["bin", "lib"]
+        PS：这里无法使用淘宝源，因为淘宝源的只读的，也可以使用npm的地址，yarn的官方镜像和npm的是保持一致的
+            另外npm源同步到淘宝源会有时间差，所以我们刚publish后可能使用淘宝源安装不了当前的gulp-stream-yds
+                解决：去淘宝源同步一下

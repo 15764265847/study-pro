@@ -66,3 +66,5 @@
 9、如果是linux或者MAC os的系统该文件还需要修改cli.js的读写权限，改为755
     chmod 755 cli.js
 10、通过yarn link命令全局化就可以使用了，我们自定义cli的命令就是我们的项目名，此刻我们这是my-cli
+11、yarn publish --rehistry=https://regitry.yarnpkg.com 
+    PS：这里无法使用淘宝源，因为淘宝源的只读的，也可以使用npm的地址，yarn的官方镜像和npm的是保持一致的

@@ -20,8 +20,10 @@
     "flow-remove-types": "^2.132.0",
     "folktale": "^2.3.2",
     "inquirer": "^7.3.3",
+    "jquery": "^3.5.1",
     "lodash": "^4.17.20",
     "nodemon": "^2.0.4",
+    "popper.js": "^1.16.1",
     "promises-aplus-tests": "^2.1.2",
     "typescript": "^4.0.2",
     "yeoman-generator": "^4.11.0"

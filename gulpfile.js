@@ -1,5 +1,7 @@
 // gulp的入口文件
 
+const { NewLineKind } = require("typescript")
+
 // const { series, parallel } = require('gulp');
 
 // const task1 = done => {
@@ -202,7 +204,7 @@ const baseSrc = {
 
 // css编译
 const style = () => {
-    // src 可以蠢如第二个参数，该参数时src方法的配置项
+    // src 可以传入第二个参数，该参数是src方法的配置项，表示以那个目录下的结构为基准输出
     // 配置项base 表示以gulpSrc下的目录结构输出到gulpDist下 
     return src('gulpSrc/assets/styles/*.scss', baseSrc)
         // sass方法执行的时候会认为'_'开头的scss文件为其他文件的依赖，即在其他scss文件中会import这些'_'开头的文件
@@ -308,7 +310,7 @@ const serve = () => {
     bs.init({
         server: {
             // server启动时会在右上角有一个默认有一个browser-sync是否已连接的小提示，设置为false就会关闭这个功能
-            notifyL: false,
+            notify: false,
             // 设置端口，默认是3000
             post: 2080,
             // 热更新功能，监听哪些文件的修改
@@ -356,7 +358,7 @@ const userefFile = () => {
     // 应该也可以在HTML编译前做这件事情
     // 假如在HTML编译前做这件事情的话，就必须先编译js（因为这个操作需要合并js），然后才能编译html
     // 这样js、html就无法并行编译了
-    return src('gulpTemp/*.html', baseSrc)
+    return src('gulpTemp/*.html', { base: 'gulpTemp' })
         // 配置项searchPath为我们从哪个目录下查找我们的依赖
         // 此处的意思就是先从dist目录下查找，找不到就从当前目录（即根目录）开始查找
         // 该操作会合并相应的文件并写入到对应的文件下
@@ -388,7 +390,7 @@ const imageAndFont = parallel(image, font, extra);
 // 上线前的构建任务，包含清除原本的已编译的文件以及重新编译我们的js等文件和压缩图片等操作
 const build = series(clean, parallel(series(compile, userefFile), imageAndFont));
 // 开发阶段的构建任务，包含编译js、html、css文件以及启动我们本地服务器
-const developBuild = series(compile, userefFile, serve);
+const developBuild = series(compile, serve);
 
 module.exports = {
     build,
