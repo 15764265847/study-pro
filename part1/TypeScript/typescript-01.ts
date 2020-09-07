@@ -1,6 +1,46 @@
 // 全局安装 TS后可以使用tsc命令
 // 初始化TS配置 tsc --init
 
+// 在已有的vue项目中使用安装vue官方提供的TS插件
+
+// 推荐使用下面语法！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+// <script lang="ts">
+// vue 中使用TS 
+// import Vue from 'vue';
+// const str:string = '123';
+// export default Vue.extends({ // 该对象和普通vue写法一样
+//     data() {
+//         return {
+
+//         }
+//     }
+// })
+// 推荐使用上面的语法！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+
+
+
+// Vue类式定义组价
+// import Vue from 'vue';
+// import Component from 'vue-class-component';
+// import Hello from 'hello.vue';导入子组件
+// @Component(component: { Hello }) 这个必须要，可以在这里注册子组件
+// export default class App extends Vue {
+//     foo = '123'; 将data中枢性定义为实例成员，初始值不能为undefined
+//     get filedFirst() { 计算属性
+
+//     }
+//     set filedFirst() { 计算属性
+
+//     }
+//     getSomething() { 直接将methods中的方法作为实例属性，beforeMount等也是
+//
+//     }
+// }
+// </script>
+
+// vue-property-decorater在vue-class-component的基础上进行了加强，提供了大量装饰器
+// 装饰器语法已有提案，但未完全实现，阮一峰的es6入门有该语法的介绍
+
 // 标准库就是TS对于js内置对象的的声明文件，可通过右击内置类型，然后点击 Go To Definition进行查看
 // 我们在TS文件中要使用内置对象就必须引用对应的标准库，如果没有引用对应的标准库而是用的话就会报错
 
