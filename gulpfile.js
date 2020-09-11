@@ -151,7 +151,7 @@ const loadPlugins = require('gulp-load-plugins');
 // }
 // 因为我们会用到一个gulp-if的插件用来判断文件类型，没法直接结构，所以需要loadPlugins()返回的对象进行赋值
 const plugins = loadPlugins();
-const {sass, babel, swig, imagemin, watch, useref, htmlmin, cleanCss, uglify } = plugins;
+const {sass, babel, swig, imagemin, watch, useref, htmlmin, cleanCss, uglify, eslint } = plugins;
 // del并不是gulp插件，所以我们单独引入
 const del = require('del');
 // 使用browser-sync模块创建一个服务器，该模块支持热更新
@@ -226,6 +226,12 @@ const style = () => {
 // js编译
 const script = () => {
     return src('gulpSrc/assets/scripts/*.js', baseSrc)
+        // gulp结合eslint在js编译之前进行代码检测是否符合规范
+        // eslint默认会检测代码但不会抛出错误
+        // 所以需要使用 eslint.format和eslint.failAfterError这两个方法，在检测到问题之后抛出错误并结束编译
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
         // 这里使用babel需要手动安装@babel/core和@babel/preset-env两个模块
         // 因为gulp-babel插件没有帮我们安装babel的核心模块和预设模块
         .pipe(babel({presets: ['@babel/preset-env']}))
@@ -383,6 +389,7 @@ const userefFile = () => {
         })))
         .pipe(dest('gulpDist')); 
 }
+
 // compile任务只进行js、html、css的编译
 const compile = parallel(style, script, page);
 // 将图片和文字以及其他一些文件的处理拿出来形成一个新的任务，在构建的任务中执行
