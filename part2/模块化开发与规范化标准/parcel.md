@@ -11,8 +11,10 @@ parcel在2017年推出首个版本，因为当时webpack使用过于繁琐
 二、parcel官方建议是用html作为打包入口
     官方理由：因为浏览器端html才是页面展示的入口
 
-三、直接运行yanr parcel './src/index.html'是可行的
-    PS：但是在本项目中有问题，估计是不知道啥哪个包和parcel冲突了，或者哪个包的版本早parcel中使用有问题，直接新开一个项目，直接运行是好使的
+三、直接运行yarn parcel './src/index.html'是可行的
+    PS：但是在本项目中有问题，估计是不知道啥哪个包和parcel冲突了，或者哪个包的版本早parcel中使用有问题？？？
+        ！！！直接新开一个项目，直接运行是好使的
+        可能不是因为包和parcel冲突了，可能是因为路径嵌套太深了，因为这边所有的示例都在这一个项目里，所以导致parcel解析路径可能会有一些问题
 
 四、parcel和webpack一样需要针对文件自定义模块热替换的功能，但是parcel只支持传一个函数参数，即当前这个模块更新后会自动执行该函数
     if (module.hot && module.hot.accept) {

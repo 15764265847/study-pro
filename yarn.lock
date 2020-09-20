@@ -11921,6 +11921,11 @@ slice-ansi@^2.1.0:
     astral-regex "^1.0.0"
     is-fullwidth-code-point "^2.0.0"
 
+snabbdom@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npm.taobao.org/snabbdom/download/snabbdom-2.1.0.tgz#cef6d44f1170574582bffdce128cfbb46d2b5f6b"
+  integrity sha1-zvbUTxFwV0WCv/3OEoz7tG0rX2s=
+
 snake-case@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/snake-case/download/snake-case-2.1.0.tgz#41bdb1b73f30ec66a04d4e2cad1b76387d4d6d9f"

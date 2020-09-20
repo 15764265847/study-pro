@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp:build": "gulp build",
     "gulp:develop": "gulp developBuild",
-    "build": "webpack"
+    "build": "webpack",
+    "virtualdev": "parcel part3/module1/virtualDom/index.html --open",
+    "virtualdevbuild": "parcel build ./part3/module1/virtualDom/index.html"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +26,7 @@
     "nodemon": "^2.0.4",
     "popper.js": "^1.16.1",
     "promises-aplus-tests": "^2.1.2",
+    "snabbdom": "^2.1.0",
     "typescript": "^4.0.2",
     "yeoman-generator": "^4.11.0"
   },
