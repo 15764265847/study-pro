@@ -1,3 +1,34 @@
+webpack打包后的入口文件的执行流程
+    1、webpack打包后会把代码放到自执行函数
+    2、该自执行函数的传参为一个对象，key为入口文件路径，value是一个函数，函数内部内部是入口文件的代码
+    3、value的函数接收两个参数 module和exports（即为commonjs导出时的module和module.exports）
+    4、webpack会把esmodule和require转换成webpack定义的__webpack_require__方法
+        PS：webpack定义了很多其他的工具方法
+
+以单模块打包为例
+    1、将所有的内容都放到自执行函数中，然后将被打包模块先关信息进行传参
+        相关信息就是就是一个对象
+            {
+                [模块路径]: function (module, exports) {
+                    模块代码
+                }
+            }
+    2、自定义__webpack_require__函数，接收一个moduleId
+        moduleId就是入口模块的ID
+    3、自执行函数内部逻辑
+        1、判断 moduleId是否缓存了对应的模块
+        2、不存在就将其声明为一个{}
+        3、同时还将这个对象存储在了installModule[moduleId]中
+        4、该对象有三个属性 i l  exports:{}
+        5、调用步骤一中的对应的模块的函数
+        6、传入module、exports、__webpack_require__，__webpack_require__为了将来还有其他模块的导入而使用
+    4、打包后文件中的工具方法
+        1、o:判断当前对象中是否存在某个属性
+        2、d:给对象的某个属性添加一个getter
+        3、r:将对象标记为__esmodule
+        4、
+    
+
 webpack.config.js导出的数据可以是一个配置对象
     也可以是一个数组，数组中包含多个配置对象，这样webpack就会运行多个打包任务，生成不同的文件
         PS：我们可以配合导出一个数组的模式来做许多东西，例如vue中的多页面应用，多页面应用中多个main.js就可以通过该模式进行打包

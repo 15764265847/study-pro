@@ -28,6 +28,7 @@
     "promises-aplus-tests": "^2.1.2",
     "snabbdom": "^2.1.0",
     "typescript": "^4.0.2",
+    "vue": "^2.6.12",
     "yeoman-generator": "^4.11.0"
   },
   "devDependencies": {
