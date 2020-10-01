@@ -1,7 +1,5 @@
 // 简述题
 
-const observe = require("inquirer/lib/utils/events")
-
 // 一、简述Vue首次渲染的过程
 // 1、调用 new Vue产生vue实例
 // 2、实例的构造函数中会调用this._init()方法
