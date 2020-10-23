@@ -1,0 +1,72 @@
+name: Publish And Deploy Demo
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    # 下载源码
+    - name: Checkout
+      uses: actions/checkout@master
+
+    # 打包构建
+    - name: Build
+      uses: actions/setup-node@master
+    - run: npm install
+    - run: npm run build
+    - run: tar -zcvf release.tgz .nuxt static pm2.config.json nuxt.config.js package.json package-lock.json
+
+    # 发布 Release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@master
+      env:
+        # 此处的secrets就是我们配置的仓库的secrets
+        # secrets.TOKEN即是我们在secrets中添加TOKEN属性
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        # 该属性表示是不是草稿
+        draft: false
+        # 该属性表示是不是预发布环境
+        prerelease: false
+
+    # 上传构建结果到 Release
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release.tgz
+        asset_name: release.tgz
+        asset_content_type: application/x-tgz
+
+    # 部署到服务器
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        # 这里需要我们的远程服务的地址，用户名，密码及发布的端口号
+        # 我们需要将这些内容配置到远程仓库中
+        # 此处的secrets就是我们配置的仓库的secrets
+        # secrets下的属性即是我们在secrets中添加的属性
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        # 连接到远程服务气候要执行的命令
+        # 进入对应的目录下下载对应的文件然后进行解压
+        # 没有对应的目录我们需要创建一个
+        # 解压完之后先安装生产依赖项，安装完成后 使用pm2启动项目
+        script: |
+          cd /root/realworld-nuxtjs
+          wget https://github.com/lipengzhou/realworld-nuxtjs/releases/latest/download/release.tgz -O release.tgz
+          tar zxvf release.tgz
+          npm install --production
+          pm2 reload pm2.config.js

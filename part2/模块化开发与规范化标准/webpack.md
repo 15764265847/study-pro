@@ -120,7 +120,7 @@ loader和plugin的区别
     1、新建一个js文件，改文件导出一个函数，该函数就是对于文件内容的处理过程，该文件的输入就是需要处理的文件的内容，输出是我们处理后的结果
     2、然后直接在webpack.config.js中使用，在module.rules中添加如下代码，直接打包即可
             {
-                test: /.md$/,
+                test: /\.md$/,
                 // use除了使用loader名称也可以使用模块的路径，这里就是使用我们的自定义loader的相对路径
                 use: './webpackPro/markdown-loader.js'
             }

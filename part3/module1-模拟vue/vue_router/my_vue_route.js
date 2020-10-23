@@ -51,6 +51,8 @@ export default class MyRouter {
             props: {
                 to: [String, Object]
             },
+            // 因为这里使用的是运行时版本的vue而不是完整版的vue，运行时的vue是不带编译器的
+            // 所以无法使用template
             // template: '<a :href="to"><slot></slot></a>'
             render(h) {
                 // 第一个参数直接写标签就行
