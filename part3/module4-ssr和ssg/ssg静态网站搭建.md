@@ -3,21 +3,21 @@
 gridsome会把loadSource方法或者page-query标签内的数据直接填充到页面内，生成静态网站  
 所以当数据库中数据发生变化的时候，开发时需要重启项目，线上的需要重新发布  
 
-1、yarn global add @gridsome/cli
+# 1、yarn global add @gridsome/cli
 
-2、gridsome create my-gridsome-site 使用该命令创建项目的时候可能不成功  
-    1、网络问题：因为他会使用一个叫做 sharp 的第三方包，依赖的包比较大，不好下载  
+# 2、gridsome create my-gridsome-site 使用该命令创建项目的时候可能不成功  
+    ## 1、网络问题：因为他会使用一个叫做 sharp 的第三方包，依赖的包比较大，不好下载  
     这里需要在安装gridsome之前预先设置sharp的安装请求地址 可以使用  
         npm config set sharp_binary_host "https://npm.taobao.org/mirrors/sharp"  
         npm config set sharp_libvips_binary_host "https://npm.taobao.org/mirrors/sharp-libvips"  
-    2、c++文件编译问题：该包中有一些c++文件需要编译才能使用  
+    ## 2、c++文件编译问题：该包中有一些c++文件需要编译才能使用  
         安装node-gyp，包的git中有对应的环境的依赖的说明  
             此时这个 node-gyp 还不能使用，需要配置对应的环境  
             比如 macOS 需要安装  
                 Python  v2.7 | v3.5 | v3.6 | v3.7 | v3.8  
                 Xcode  
             其他系统下查看 node-gyp 的 github 地址  
-    3、这里还可能会出现一个问题 第三方包 pngquant-bin 安装包错  
+    ## 3、这里还可能会出现一个问题 第三方包 pngquant-bin 安装包错  
         PS：这个包是用来压缩图片的，这安装的时候会提示缺少另外一个包  
 
 3、然后执行gridsome create my-gridsome-site进行创建项目  
