@@ -11,6 +11,7 @@ class MyPromise {
         } catch (error) {
             this.reject(error);
         }
+        // this.resolve = () => {}
     }
     status = PENDING;
     value = void 0;

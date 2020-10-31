@@ -43,7 +43,7 @@ pm2进程守护 配置文件
     12、添加完成后点击Add secret按钮
 
     配置github actions的执行脚本
-    1、项目根目录下创建.github/workflows的工作目录，添加main.yml脚本，这里已经放了一份已配好的脚本工作流脚本文件，可以直接使用，也可是当修改
+    1、项目根目录下创建 .github/workflows 的工作目录，添加main.yml脚本，这里已经放了一份已配好的脚本工作流脚本文件，可以直接使用，也可是当修改
 
         main.yml中
             name: Publish And Deploy Demo
