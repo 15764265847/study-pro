@@ -1,4 +1,4 @@
-rollup/webpack选用原则
+### rollup/webpack选用原则
     rollup： 开发类库或者框架的时候使用rollup做微模块打包
         优点：
             1、输出后的代码更加扁平
@@ -10,10 +10,10 @@ rollup/webpack选用原则
             3、浏览器环境代码拆分依赖实现amd的库
     webpack：开发应用程序时使用，因为开发应用程序的体验webpack更好
 
-webpack大而全，rollup小而美 
+### webpack大而全，rollup小而美 
 
 
-一、仅仅是一款ES module的打包器，充分利用ES module的各项特性  
+### 一、仅仅是一款ES module的打包器，充分利用ES module的各项特性  
 
     rollup的配置文件可以使用ES module的方式导出一个对象，如下
         export default {
@@ -27,11 +27,11 @@ webpack大而全，rollup小而美
             }
         }
 
-二、rollup使用时必须指定配置文件，因为rollup默认是不使用配置文件的
+### 二、rollup使用时必须指定配置文件，因为rollup默认是不使用配置文件的
     yarn rollup --config 不指定文件就使用rollup.config.js
     yarn rollup --config roll.config.prod.js 指定使用roll.config.prod.js为打包的配置文件
 
-三、插件是rollup的唯一扩展方式，而webpack则有loader plugins minimizer三种扩展方式 
+### 三、插件是rollup的唯一扩展方式，而webpack则有loader plugins minimizer三种扩展方式 
     PS： rollup的插件都是导出一个函数，使用直接在plugins中调用该函数，即plugins使用的是导出函数的调用结果，如下
         // 该插件导出一个函数
         import json from 'rollup-plugin-json';
@@ -47,16 +47,16 @@ webpack大而全，rollup小而美
             ]
         }
 
-四、rollup加载NPM模块
+### 四、rollup加载NPM模块
     rollup的需打包文件不允许直接使用模块名的方式加载模块，必须是模块路径
     例如在rollupPro/src/index.js中直接使用模块名的方式导入模块是不允许的
         import _ from 'lodash-es';
     为此需要安装一个插件来解决这个问题，rollup-plugin-node-resolve这个插件使用后就可以使用以上方式导入模块
 
-五、rollup的设计就是只处理的ES module的模块的打包，rollup不支持Commonjs模块的打包，所以需要插件来解决这个问题
+### 五、rollup的设计就是只处理的ES module的模块的打包，rollup不支持Commonjs模块的打包，所以需要插件来解决这个问题
     rollup-plugin-commonjs就是官方提供的用来兼容Commonjs模块的打包的
 
-六、多入口打包
+### 六、多入口打包
     1、可以使用和webpack类似的方式
         export default {
             input: {

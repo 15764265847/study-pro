@@ -9,7 +9,7 @@ nuxt动态路由即   student/:id这种形式的路由
 nuxt 中asyncData钩子函数只能在页面组件中使用，而且其内部没有this
     asyncData钩子函数可以传一个参数，这个参数上下文对象，内部保存了很多数据，例如可以获取到路由信息
 
-pm2进程守护 配置文件
+### pm2进程守护 配置文件
     {
         "apps": [
             {
@@ -25,7 +25,7 @@ pm2进程守护 配置文件
     即此处最后是pm2帮我们执行 npm start 命令，是我们在package.json中配置好的执行打包后文件的命令
 
 
-可以使用 github actions 发布
+### 可以使用 github actions 发布
     1、右上角个人有个settings按钮，点击
     2、侧边栏中有个Developer settings按钮，点击
     3、然后点击侧边栏的Personal access tokens按钮

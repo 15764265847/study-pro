@@ -1,7 +1,7 @@
 
 Vue的虚拟DOM是改造了一个开源库，SnabbDom
 
-snabbdom 使用简介
+## snabbdom 使用简介
     最新版本的snabbdom更新了导出方式，所以视频中的例子是低版本的导出方式
         import { h } from 'snabbdom/build/package/h'
         import { init } from 'snabbdom/build/package/init'
@@ -62,5 +62,5 @@ snabbdom 使用简介
 
         使用，类似插件，需要另外导入，需要使用init来注册模块，使用h函数的时候第二个参数可以是对象，原本的第二个参数后移
 
-关于vue中key的使用
+## 关于vue中key的使用
     我的理解：正常来说v-for使用key并没有特别大的作用，因为无论是删除还是添加在首首、尾尾、首尾、尾首的比对中都会比对到，但是对列表排序的时候key的作用就会很大，这时候首首、尾尾、首尾、尾首都匹配不到，就会按照对应的key在旧的虚拟dom查找，找到的话就不需要重新创建dom，直接使用找到的dom进行插入

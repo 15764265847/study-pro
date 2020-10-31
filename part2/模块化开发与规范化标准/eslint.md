@@ -16,7 +16,7 @@ stylelint的使用和eslint类似，配置文件类似'.stylelintrc'，其中配
             extends: ['style-config-standard', 'style-config-sass-guidelines'] 
         }
 
-一、.eslintrc.js中的配置项
+### 一、.eslintrc.js中的配置项
     1、env 表示是否能够使用不同环境的api
         比如这里可以配置
             env: {
@@ -52,7 +52,7 @@ stylelint的使用和eslint类似，配置文件类似'.stylelintrc'，其中配
             }
             此时我们就可以直接使用全局的jQuery了，eslint不会再对该变量报出错误
 
-二、eslint的配置注释，在写代码的过程中会发生我们的代码会违反配置的规范，但是我们又不能推翻整个规范，所以我们就可以在代码中使用配置注释
+### 二、eslint的配置注释，在写代码的过程中会发生我们的代码会违反配置的规范，但是我们又不能推翻整个规范，所以我们就可以在代码中使用配置注释
 
     具体使用就是在某一行代码后添加   //eslint-disable-line [某个eslint功能]，会让eslint在检测某项规范的时候忽略这行代码例
         PS：如果只是//eslint-disable-line不添加需要禁用的规范项，那么所有的配置的规范都不会检测这行是都符合
@@ -62,7 +62,7 @@ stylelint的使用和eslint类似，配置文件类似'.stylelintrc'，其中配
 
     其他配置注释的使用都可以查看官方网站
 
-三、webpack + eslint 
+### 三、webpack + eslint 
     react需要安装eslint-plugin-react该插件来配合校验react的jsx语法，.eslintrc文件配置如下
 
         方式一：
@@ -124,7 +124,7 @@ stylelint的使用和eslint类似，配置文件类似'.stylelintrc'，其中配
             }
         }
 
-四、eslint + TypeScript
+### 四、eslint + TypeScript
     因为TS使用但单独的解析器，所以这里需要配置一下TS的解析器，即配置parser字段为'@typescript-eslint/parser'
 
         module.exports = {
@@ -136,7 +136,7 @@ stylelint的使用和eslint类似，配置文件类似'.stylelintrc'，其中配
             parser: '@typescript-eslint/parser'
         }
 
-五、eslint + git hooks
+### 五、eslint + git hooks
     项目的.git文件夹下有一个hooks文件夹，这里面是.simple后缀名结尾的文件，这些文件就是在git的执行的所写的钩子的目标文件
     
     这里我们主要使用的是pre-commit这个钩子，我们可以先把pre-commit.simple复制一份，然后重命名为pre-commit并去掉后缀名这个文件就可以使用了

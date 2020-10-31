@@ -1,11 +1,11 @@
-webpack打包后的入口文件的执行流程
+### webpack打包后的入口文件的执行流程
     1、webpack打包后会把代码放到自执行函数
     2、该自执行函数的传参为一个对象，key为入口文件路径，value是一个函数，函数内部内部是入口文件的代码
     3、value的函数接收两个参数 module和exports（即为commonjs导出时的module和module.exports）
     4、webpack会把esmodule和require转换成webpack定义的__webpack_require__方法
         PS：webpack定义了很多其他的工具方法
 
-以单模块打包为例
+### 以单模块打包为例
     1、将所有的内容都放到自执行函数中，然后将被打包模块先关信息进行传参
         相关信息就是就是一个对象
             {
@@ -29,7 +29,7 @@ webpack打包后的入口文件的执行流程
         4、
     
 
-webpack.config.js导出的数据可以是一个配置对象
+### webpack.config.js导出的数据可以是一个配置对象
     也可以是一个数组，数组中包含多个配置对象，这样webpack就会运行多个打包任务，生成不同的文件
         PS：我们可以配合导出一个数组的模式来做许多东西，例如vue中的多页面应用，多页面应用中多个main.js就可以通过该模式进行打包
         此次的案例是用来实验多种sourceMap模式的区别
@@ -87,14 +87,14 @@ webpack.config.js导出的数据可以是一个配置对象
             ...其他模式
         ]
 
-loader和plugin的区别
+### loader和plugin的区别
     1、loader专注于模块资源加载，从而实现项目的整体打包
-    2、解决出资源加载之外的自动化工作
+    2、plugin解决出资源加载之外的自动化工作
         例如：插件可以帮我们在打包之前自动清除上一次的打包的结果
             还可以拷贝静态文件（不需要打包的文件）至输出目录
             压缩打包输出的代码
 
-一、加载器（loader）工厂的流水线车间，将我们的东西一样一样的分类打包，最后整体组合成我们的项目
+### 一、加载器（loader）工厂的流水线车间，将我们的东西一样一样的分类打包，最后整体组合成我们的项目
     加载器分类
         1、编译转换，例如babel或者sass等将我们的js或者css进行编译
         2、文件操作类型，拷贝文件到对应目录，并将文件的路径到处，例如file-loader或者url-loader的处理
@@ -102,7 +102,7 @@ loader和plugin的区别
     PS：webpack会对我们的项目进行打包操作，所以会对ES module的import和export 进行编译，但是其他代码不会
     即，webpack并不会帮我们进行项目的编译工作，我们需要另外的插件进行编译
 
-二、webpack支持多种模块加载
+### 二、webpack支持多种模块加载
     1、ES module
     2、CMD规范的的require
     3、AMD规范的define和require
@@ -112,11 +112,11 @@ loader和plugin的区别
     这些会触发webpack的模块加载，将对应的文件进行打包，例如css中的url函数中的路径
     webpack会按照我们的配置对我们所使用的资源使用不同的loader处理，并将处理的结果输出到打包目录 
 
-三、webpack打包流程，loader是webpackd的核心，根据不同的文件类型进行处理
+### 三、webpack打包流程，loader是webpackd的核心，根据不同的文件类型进行处理
     1、从入口文件开始，通过import等模块引入方式分析出相应的依赖，然后分别解析模块对应的依赖形成一个依赖树
     2、然后递归这个依赖树，根据每个文件的类型使用不同的loader进行打包，从而实现整个项目的打包
 
-四、开发自己的loader，开发一个markdown加载器
+### 四、开发自己的loader，开发一个markdown加载器
     1、新建一个js文件，改文件导出一个函数，该函数就是对于文件内容的处理过程，该文件的输入就是需要处理的文件的内容，输出是我们处理后的结果
     2、然后直接在webpack.config.js中使用，在module.rules中添加如下代码，直接打包即可
             {
@@ -169,7 +169,7 @@ loader和plugin的区别
             }
             PS: laoder的执行顺序是从数组的后面开始执行，即从数组的最后一个开始执行，然后依次往前，所以需要把先执行的放到数组后面
 
-五、自定义plugin，通过网webpack的生命周期的钩子上挂载钩子函数实现的
+### 五、自定义plugin，通过网webpack的生命周期的钩子上挂载钩子函数实现的
 以下代码在webpack的plugins中配置使用即可
     class Myplugin {
         // compiler是webpack工作过程中的核心对象，它具有本次构建的所有配置信息，并使用该对象来注册钩子函数
@@ -200,9 +200,9 @@ loader和plugin的区别
         }
     }
 
-六、使用yarn webpack --watch启用watch模式，监听文件变化自动打包
-七、webpack dev server，集成自动编译，自动刷新浏览器
-八、sourceMap ，解决了开发阶段的代码和运行代码不一致时调试困难的问题
+### 六、使用yarn webpack --watch启用watch模式，监听文件变化自动打包
+### 七、webpack dev server，集成自动编译，自动刷新浏览器
+### 八、sourceMap ，解决了开发阶段的代码和运行代码不一致时调试困难的问题
     描述我们打包前与打包后的代码的映射关系，一般这种映射关系需要一个.map后缀名的文件描述，其中.map文件有四个属性
         1、version
         2、sources，一个数组，内部是文件名，表示最后打包出来的文件由哪几个文件合并而成
@@ -232,7 +232,7 @@ loader和plugin的区别
             生产模式：none 不生成sourceMap，因为会暴露源代码到生产环境
                 如果对线上环境没有信心的话可以使用nosources-source-map，会给出错误位置，但不会暴露源代码
 
-九、Hot module replacement 热更新
+### 九、Hot module replacement 热更新
     1、配置：
         1、devServer中配置hot:true
         2、plugins中添加关于webpack内置插件HotModuleReplacementPlugin的使用即，plugins: [new webpack.HotModuleReplacementPlugin()]
@@ -280,7 +280,7 @@ loader和plugin的区别
             }
         3、热更新的处理代码会在打包后被移除，不会影响生产环境的运行状态
 
-十、区分生产还是开发来对webpack进行不同的配置
+### 十、区分生产还是开发来对webpack进行不同的配置
     1、判断环境变量，然后分别添加不同的配置。建议小型项目使用该方法
         // webpack配置文件还可以导出一个函数，该函数需要接受两个参数
         // env表示运行环境，argv表示我们是webpack-cli时传递的所有参数
@@ -315,7 +315,7 @@ loader和plugin的区别
                 })
             使用webpack --config webpack.config.prod.js命令打包，可以将该命令添加到package.json的scripts中
 
-十一、webpack内置插件DefinePlugin，用来定义全局变量，他会直接将我们定义的变量的值直接替换到打包后的代码中
+### 十一、webpack内置插件DefinePlugin，用来定义全局变量，他会直接将我们定义的变量的值直接替换到打包后的代码中
     传入的值必须是一段可执行的js代码片段
     plugins: [
         new webpack.DefinePlugin({
@@ -323,7 +323,7 @@ loader和plugin的区别
         })
     ]
 
-十二、非生产环境开启摇树优化（tree shaking），生产环境会自动使用，不需要配置
+### 十二、非生产环境开启摇树优化（tree shaking），生产环境会自动使用，不需要配置
     webpack.config.js中配置如下
         optimization: {
             // 配置只有使用到的导出才会打包
@@ -366,7 +366,7 @@ loader和plugin的区别
                 }
             },
 
-十三、sideEffects 表示模块是否有副作用，如果有那么摇树优化就不会将模块代码删除
+### 十三、sideEffects 表示模块是否有副作用，如果有那么摇树优化就不会将模块代码删除
     开启该功能
         1、webpack配置文件配置sideEffects为true
             optimization: {
@@ -389,7 +389,7 @@ loader和plugin的区别
         这样a.js的代码就会有副作用，因为我们执行了a.js之后Number的原型链上就会有pad方法，该方法可能会在其他模块中使用到
         假如我们将a.js标识为没有副作用，那么在摇树优化的时候会把a.js的内容给优化掉
 
-十四、代码分割
+### 十四、代码分割
     1、多入口打包，适用于多页，以下的other.js和other.html并不存在，要使用就自己创建
         1、配置entry为多个入口，一个key对应一个入口文件
             entry: {
