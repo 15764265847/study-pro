@@ -1,7 +1,7 @@
 开发一个小型的脚手架工具
-1、新建一个文件夹叫做my-cli
-2、yarn init一下，生成package.json
-3、添加"bin": "cli.js"，以cli.js为入口文件
+### 1、新建一个文件夹叫做my-cli
+### 2、yarn init一下，生成package.json
+### 3、添加"bin": "cli.js"，以cli.js为入口文件
     初始化并添加“bin”后的package.json内容如下
         {
             "name": "my-cli",
@@ -10,11 +10,11 @@
             "main": "index.js",
             "license": "MIT"
         }
-4、安装inquirer模块，该模块是用来做命令行交互的
+### 4、安装inquirer模块，该模块是用来做命令行交互的
     yarn add inquirer
-5、因为我们可能会根据本模板来生成文件，所以我们需要安装模板引擎，该实例中使用的是ejs
+### 5、因为我们可能会根据本模板来生成文件，所以我们需要安装模板引擎，该实例中使用的是ejs
     yarn add ejs
-6、我们需要一个文件夹来存放我们的模板文件，新建一个templates文件夹，并且新建一个index.html，内容如下
+### 6、我们需要一个文件夹来存放我们的模板文件，新建一个templates文件夹，并且新建一个index.html，内容如下
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -25,7 +25,7 @@
             
         </body>
         </html>
-7、创建一个cli.js，内容如下
+### 7、创建一个cli.js，内容如下
         #!/usr/bin/env node
 
         // console.log('wangbadan')
@@ -61,10 +61,10 @@
                 });
             })
         })
-8、node cli的入口文件必须要有一个特定的文件头
+### 8、node cli的入口文件必须要有一个特定的文件头
    #!/usr/bin/env node
-9、如果是linux或者MAC os的系统该文件还需要修改cli.js的读写权限，改为755
+### 9、如果是linux或者MAC os的系统该文件还需要修改cli.js的读写权限，改为755
     chmod 755 cli.js
-10、通过yarn link命令全局化就可以使用了，我们自定义cli的命令就是我们的项目名，此刻我们这是my-cli
-11、yarn publish --rehistry=https://regitry.yarnpkg.com 
+### 10、通过yarn link命令全局化就可以使用了，我们自定义cli的命令就是我们的项目名，此刻我们这是my-cli
+### 11、yarn publish --rehistry=https://regitry.yarnpkg.com 
     PS：这里无法使用淘宝源，因为淘宝源的只读的，也可以使用npm的地址，yarn的官方镜像和npm的是保持一致的

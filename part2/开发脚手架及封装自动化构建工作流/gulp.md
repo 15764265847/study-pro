@@ -2,7 +2,7 @@ gulp
 
 ** 表示该文件夹下的所有的文件，包括目录以及目录下的子文件或子目录以及其他文件
 
-基础使用
+### 基础使用
     1、安装 yarn add gulp --dev
     2、创建gulpfile.js ，内容如下
         exports.foo = (done) => {
@@ -136,15 +136,16 @@ gulp
 
 
 将gulpfile.js和gulp开发成一个单独的npm模块，以供我们其他项目使用该模块，此处以我们开发的gulp-stream-yds模块为例
-一、开发过程中如何使用gulp-stream-yds：
+
+### 一、开发过程中如何使用gulp-stream-yds：
     1、在gulp-stream-yds项目中，yarn link一下全局化gulp-stream-yds命令
     2、在使用的项目中yarn link 'gulp-stream-yds'
-二、在我们直接使用gulpfile.js的项目中我们安装许多gulp工作流的开发依赖，但是当我们把这些东西集成到gulp-stream-yds项目中时，这些开发依赖就会成为工作依赖，即在gulp-stream-yds项目中这些依赖应该安装到dependencies中
-三、数据，在gulpfile.js中我们使用data作为我们使用模板引擎填充到需要编译的文件中的，即这些数据都应该属于我们使用gulp-stream-yds的项目的，这些数据应该是作为我们配置传入到gulp-stream-yds中的，我们需要一个配置文件，定义配置文件为gsy.config.js，意思是gulp-stream-yds的配置文件
-四、关于@babel/preset-env使用的问题，在gulpfile.js中我们使用的字符串，此时使用就会直接从我们当前项目中寻找，而不是从gulp-stream-yds寻找，此时如果当前项目没有安装@babel/preset-env就会报错，所以在gulp-stream-yds模块中我们需要使用require的方式载入模块进行使用，这样他就会直接从gulp-stream-yds的依赖中寻找
-五、文件路径
+### 二、在我们直接使用gulpfile.js的项目中我们安装许多gulp工作流的开发依赖，但是当我们把这些东西集成到gulp-stream-yds项目中时，这些开发依赖就会成为工作依赖，即在gulp-stream-yds项目中这些依赖应该安装到dependencies中
+### 三、数据，在gulpfile.js中我们使用data作为我们使用模板引擎填充到需要编译的文件中的，即这些数据都应该属于我们使用gulp-stream-yds的项目的，这些数据应该是作为我们配置传入到gulp-stream-yds中的，我们需要一个配置文件，定义配置文件为gsy.config.js，意思是gulp-stream-yds的配置文件
+### 四、关于@babel/preset-env使用的问题，在gulpfile.js中我们使用的字符串，此时使用就会直接从我们当前项目中寻找，而不是从gulp-stream-yds寻找，此时如果当前项目没有安装@babel/preset-env就会报错，所以在gulp-stream-yds模块中我们需要使用require的方式载入模块进行使用，这样他就会直接从gulp-stream-yds的依赖中寻找
+### 五、文件路径
     我们要把gulp-stream-yds中使用的路径抽出来作为配置项使用，gulp-stream-yds中的路径是以使用项目的根目录来作为使用路径的，以当前项目study-pro为例，在gulp-stream-yds中使用gulpSrc/assets/scripts/*.js，则是从study-pro直接开始查找，即他的寻找路径最终为study-pro/gulpSrc/assets/scripts/*.js
-六、假设当前目录没有gulpfile.js我们该怎么使用
+### 六、假设当前目录没有gulpfile.js我们该怎么使用
     PS：一般来讲我们开发的模块的代码的主入口应该放到lib目录下，cli的文件放到bin目录下
     1>创建一个bin目录，然后创建一个gulp-stream-yds.js文件，作为cli的执行入口
     2>在package.json中添加"bin": "bin/gulp-stream-yds.js"
