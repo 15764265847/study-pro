@@ -91,5 +91,25 @@ SSR渲染流程
 HTML中head内标签的管理，可以参考vue-ssr的官方文档使用
     推荐使用第三方包 vue-meta 来管理
 
-数据预取 官方推荐使用store，vue中存在一个生命周期专门是用来服务端渲染与取数据的，叫做 serverPrefetch
+### ！！！数据预取 官方推荐使用store，vue中存在一个生命周期专门是用来服务端渲染与取数据的，叫做 serverPrefetch
+    所以我们需要现在单文件组件中添加 serverPrefetch 的钩子，他会在服务端渲染的时候自动调用
+
+    发起 actions ，返回 promise
+
+    entry-server.js 中添加 
+        context.rendered = () => {
+            // renderer渲染器会把 context.state 数据对象内联页面模板中
+            // 最终发送给客户端的页面中包含一段脚本 window.__INITIAL_STATE__ = 【对应数据】
+            // 在客户端把 window.__INITIAL_STATE__ 的数据拿出来填充到客户端的 store
+            // 需要我们在客户端入口自行替换 即在 entry-client.js中 
+            // if (window.__INITAIL_STATE__) {
+            //     store.replaceState(window.__INITAIL_STATE__);
+            // }
+            context.state = store.state;
+        }
+    entry-client.js 中 添加
+        if (window.__INITAIL_STATE__) {
+            store.replaceState(window.__INITAIL_STATE__);
+        }
+
 

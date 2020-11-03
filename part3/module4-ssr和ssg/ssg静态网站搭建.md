@@ -121,6 +121,8 @@ gridsome会把loadSource方法或者page-query标签内的数据直接填充到�
     7、Environment Variables 这里用来配置环境变量，视频中的示例没有这个需求  
     8、点击 deploy 按钮  
 
+# 使用 github pages 部署gridsome应用
+
 # 在数据更新的时候，这里也要自动进行部署  
     1、点击项目，进到项目的详情页面  
     2、点击Settings  
