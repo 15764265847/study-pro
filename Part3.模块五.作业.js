@@ -12,9 +12,6 @@
 //        2、删除一些不常用的api
 //        3、按需引入
 
-import { track } from "./part3/module5-vue3/vue3核心函数实现";
-
-
 // 二、composition api 和 options api 有啥区别
 //     1、composition api 使用 monorepo 方式管理
 //         1、可以按需引入
