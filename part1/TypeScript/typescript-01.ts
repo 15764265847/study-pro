@@ -345,3 +345,49 @@ getArr<string>(5, '100');
 // require 
 // 有很多的库都已经集成了类型声明模块，即内部有类型声明的文件，不需要我们自己再去安装，比如query-string这个库就内置了类型声明模块
 
+
+// type 和 interface 的区别
+// 首先，interface只能表示function，object和class类型，type除了这些类型还可以表示其他类型，例如
+
+interface AAA{
+    name:string;
+    add:()=>void;
+}
+interface BB{():void}
+ 
+type CC=()=>number;
+type DD=string;
+type EE={name:string,age:number}
+
+// interface可以合并同名接口，type不可以
+
+interface AAAA{name:string}
+interface AAAA{age:number}
+var xx:AAAA={name:'xx',age:20}
+// interface可以继承interface，继承type，使用extends关键字，type也可继承type，也可继承interface，使用&
+
+interface AAAAAA{name:string}
+interface BBB extends AAAAAA{age:number}
+ 
+type CCCC={sex:string}
+ 
+interface DDDD extends CCCC{name:string}
+ 
+type E={name:string}&CCCC
+ 
+type F ={age:number}&AAAAAA
+// 还有类可以实现接口，也可以实现type
+
+interface AAAAAAAA{name:string;add:()=>void}
+type B={age:number,add:()=>void}
+ 
+class C implements AAAAAAAA{
+    name = 'xx'
+    add(){console.log('类实现接口')}
+}
+ 
+class D implements B{
+    age = 20
+    add(){console.log('类实现type')}
+}
+
