@@ -95,3 +95,15 @@
 
             export default connect(myStateToProps, mapDispatchToProps)(Counter);
           ```
+
+### 插件 redux-saga 
+
+### 插件 redux-actions
+  import { createAction } from 'redux-ations';
+  const increment = createAction('increment')
+
+  import { handleAction as createReducer } from 'redux-ations';
+  const initState = { count: 0 }
+  export default  createReducer({
+    [increment]: (state, actions) => ({ count: state.count + 1  })
+  }, initState)
