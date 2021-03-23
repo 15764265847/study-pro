@@ -345,6 +345,118 @@ getArr<string>(5, '100');
 // require 
 // 有很多的库都已经集成了类型声明模块，即内部有类型声明的文件，不需要我们自己再去安装，比如query-string这个库就内置了类型声明模块
 
+// 定义类型声明文件 
+// 类型声明文件一定要放在 TS 覆盖范围之内 ，例如在 tsconfig.json 中定义了 include: 'src' , 意思是只编译 src 下的文件 那么类型声明文件
+// 放在根目录下是不管用的
+    // 1. 一定是 .d.ts 结尾 ，类型补充声明
+
+    // 示例一
+    interface Dict<T> {
+        [key: string]: T
+    }
+    // 添加这一行代码后 ，表示该文件是 lodash 的类型声明文件 ，即在文件中使用 lodash 时不会报错
+    declare module lodash {
+        // 方式一
+        // 使用这种方式会把 ‘123’ 推到为 string 类型 ，尽量不要用推断 ，推断会让人误解
+        // export const camelCase1 = (key: string) => '123'
+
+        // 方式二
+        export const camelCase2: (key: string) => string
+
+        // 方式三
+        export function camelCase3(key: string): string
+
+        // 导出全部成员
+        // 方式一
+        // interface Lodash {
+        //     camelCase: (key: string) => string
+        // }
+        // const lodash: Lodash
+        // export default lodash
+
+        // 方式二 
+        // export default {
+        //     camelCase2,
+        //     camelCase3
+        // }
+    }
+
+    // 类型声明文件的内容不需要导出 ，他默认是全局声明的
+    // export default Dict
+
+    // 使用
+    const cacheA: Dict<string> = { 1: 'a' }
+
+    // 如果在 .d.ts 文件末尾使用 ES6 module 的话那么这个文件内部的内容就会变成局部作用域内的内容 ，全局无法访问 ，所以.d.ts 末尾不能添加 ES6 module
+
+    // 示例二 导入图片的情况
+    // import logo from './logo.png'
+
+    // declare module '*.png' {
+    //     const url: string
+    //     export default url
+    // }
+
+    // 示例三 导入css的情况 
+    // import styles from 'style.module.css'
+
+    // unknown 表示未知类型
+    declare module '*.css' {
+        // 方式一
+        export const styles: Record<string, unknown>
+        export default styles
+        // 方式二 可以直接给 export 赋值导出
+        // const styles: Record<string, unknown>
+        // export = styles
+    }
+
+// 带前缀的第三方包的类型声明文件 ，例如 @koa/router ，他的类型声明文件为 @typs/koa__router
+    // @koa/cors => @types/koa__cors
+
+// 如果像自己的项目编译后能够自动生成对应的类型声明文件 需要在 tsconfig.json 中将 compilerOptions 下的 declaration 设置为 true ，"declaration": true,  
+// tsconfig.json 已经写好了 ，加开注释即可
+
+
+// js项目类型增强
+    // 类型注释
+    /** 
+     * @type {string} params 1
+     * @type {string} params 2
+     * @returns {string}
+     */
+    export const add = (a, b): string => a + b
+
+     /** @type {{ a: number, b: string }} */
+     const foo  = { a: 1, b: '1' }
+
+     /** @typedef { 'open' | 'close' } Status */
+    //  等同于 ts 中的
+     type Status = 'open' | 'close'
+
+    // vue.config.js 中类型标记
+        /** @type { import(@vue/cli-service).ProjectOptions } */
+        module.exports = {
+            xxx: 'xxx'
+        }
+// 使用这种方式时可以按照 tsconfig.json 的语法来写一个 jsconfig.json ，此时就有有类型提示了 
+// 可以在页面中使用 @ts-check 此时就会有明确的语法检查了
+    // <script>
+    //     // @ts-check  
+    //     import xxx from 'xxx.vue'
+    //     export default {
+    //         name: 'xxx'
+    //     }     
+    // </script>
+
+
+// 前端类型系统的级别
+    // 1. 纯JS，类型推导基于 JS 本身
+    // 2. 通过 JSDoc ，以类型注解来增强类型系统
+    // 3. 为每个JS文件添加 @type-check ，开启类型检查
+    // 4. 基本使用 TS 即大量使用 any 
+    // 5. 完全使用TS （strict模式 + 强lint：ts-standard）
+    
+
 
 // type 和 interface 的区别
 // 首先，interface只能表示function，object和class类型，type除了这些类型还可以表示其他类型，例如
