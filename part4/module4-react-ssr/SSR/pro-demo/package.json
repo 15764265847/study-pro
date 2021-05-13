@@ -1,0 +1,34 @@
+{
+  "name": "react-ssr-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev:server-build": "webpack --config webpack.server.js --watch",
+    "dev:client-build": "webpack --config webpack.client.js --watch",
+    "dev:server-run": "nodemon --watch build --exec \"node build/bundle.js\""
+  },
+  "dependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.0",
+    "@babel/preset-react": "^7.13.13",
+    "axios": "^0.21.1",
+    "babel-loader": "^8.2.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router": "^5.2.0",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0",
+    "webpack-merge": "^5.7.3",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.6.0"
+  }
+}
