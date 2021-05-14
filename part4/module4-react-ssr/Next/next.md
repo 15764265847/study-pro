@@ -50,10 +50,8 @@
 
 
 ### 2. 安装 chakra-ui 框架 及 主题
-` yarn add  @chakra-ui/core`
 ` yarn add  @chakra-ui/react`
 ` yarn add  @chakra-ui/theme`
-` yarn add  @chakra-ui/react`
 安装 `@chakra-ui/react`的依赖包 `yarn add @emotion/react @emotion/styled`
 
 ### 3. 克隆主题
