@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=title%></title>
+</head>
+<body>
+  <ul>
+    <%if(parent){%>
+      <li><a href="<%=parentPath%>">上一层</li>
+    <%}%>
+    <%for(let i = 0; i < arr.length; i ++) {%>
+      <li><a href="<%=arr[i].path%>"><%=arr[i].dirs%></a></li>
+    <%}%>
+  </ul>
+</body>
+</html>

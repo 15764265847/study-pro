@@ -23,4 +23,20 @@ formatConfig(options, (cmd, val) => {
   program.option(cmd, val.description)
 })
 
-program.parse(process.argv)
+program.on('--help', () => {
+  console.log('Examples:')
+  formatConfig(options, (cmd, val) => {
+    console.log(val.example)
+  })
+})
+program.name('serve')
+
+const version = require('../package.json').version
+
+program.version(version)
+
+const cmdOptions = program.parse(process.argv)
+
+const { Server } = require('../main')
+
+new Server(cmdOptions).start()
