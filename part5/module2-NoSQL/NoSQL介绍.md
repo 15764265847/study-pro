@@ -209,4 +209,47 @@
         6. SUNIONSTORE destination key1 key2 key3 [...] 返回 key1 及后续所有集合的并集并存储到 destination 集合中
 
 
+  ### Redis事务
+
+  ### 持久化
+    * RDB
+    * AOF
+      - 保存数据的操作日志到 .aof 文件中，在数据库重启时，使用操作日志来还原数据
+      - appendfilename 配置项 ，用来命名 .aof 文件的文件名
+      - dir  .aof 文件的保存位置
+      - 三种同步策略，一般情况下使用默认值即可
+        1. appendfsync always 每一次发送数据变化都会立即同步到磁盘中，效率较慢，但数据非常安全，几乎不会出现数据丢失的情况
+        2. appendfsync evenysec 默认值，每秒同步，异步执行，效率非常高，但是一旦出现宕机，这一秒内还未同步的数据就会丢失
+        3. appendfsync no 不同步
+
+    * RDB 和 AOF
+      - RDB 
+        - 优点
+          1. 文件小
+          2. 异步备份，性能好
+          3. 恢复大数据集比AOF快
+        - 缺点
+          1. 数据安全性低，容易丢失
+          2. 数据量较大时，备份速度慢
+      - AOF
+        - 优点
+          1. 数据安全性高
+          2. 有利于开发分析
+        - 缺点
+          1. 相同数据集比RDB文件大
+          2. 根据所使用的fsync，AOF速度可能会慢于RDB
+      - 使用
+        1. 推荐同时使用两种，因为这样足以媲美关系型数据库的安全性
+        2. 如果非常关心数据且能够承受数分钟之内数据的丢失，那么可以使用 RDB
+        3. 不推荐只使用 AOF，因为RDB快照非常有利于进行数据库备份，且RDB数据集的恢复比AOF要快
+  
+  ### Redis 图形管理软件 RDM
+
+  ### node 中操作 Redis ，https://redis.io/clients#nodejs
+    * 目前有几个比价流行的库
+      1. ioredis  写笔记时的文档：https://gitee.com/mirrors/ioredis
+      2. node-redis
+      3. teredis
+
+
 
