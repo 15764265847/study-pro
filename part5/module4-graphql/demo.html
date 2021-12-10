@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./node_modules//axios/dist/axios.js" ></script>
+    <script>
+        axios({
+            method: 'POST',
+            url: 'http://localhost:4444/articles',
+            data: {
+                query: `
+                    mutation deleteArticle ($id: ID!) {
+                        deleteArticle(id: $id) {
+                            success
+                        }
+                    } 
+                `,
+                variables: {
+                    id: 2
+                }
+            }
+        })
+            .then(res => {
+                console.log(res)
+            })
+
+        // axios({
+        //     method: 'POST',
+        //     url: 'http://localhost:4444/articles',
+        //     data: {
+        //         query: `
+        //             mutation ediitArticleById ($article: EditArticleInput) {
+        //                 createArticle(article: $article) {
+        //                     id
+        //                     title
+        //                     body
+        //                 }
+        //             }
+        //         `,
+        //         variables: {
+        //             article: {
+        //                 id: 1,
+        //                 title: '静女',
+        //                 body: '这里是静女',
+        //                 code: 'jn'
+        //             }
+        //         }
+        //     }
+        // })
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+
+
+        // 这里查询语句名称后面的参数的类型可以直接写后端服务中定义的类型
+        // 即此处参数对应后端名称为 CreateArticleInput 的 input，可以直接使用
+        // 不用在这里再定义一遍
+        // axios({
+        //     method: 'POST',
+        //     url: 'http://localhost:4444/articles',
+        //     data: {
+        //         query: `
+        //             mutation createArticle ($article: CreateArticleInput) {
+        //                 createArticle(article: $article) {
+        //                     id
+        //                     title
+        //                     body
+        //                 }
+        //             }
+        //         `,
+        //         variables: {
+        //             article: {
+        //                 title: '击鼓',
+        //                 body: '这里是击鼓',
+        //                 code: 'jg'
+        //             }
+        //         }
+        //     }
+        // })
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+
+        // GraphQl api 的参数不只是 query 来传递查询语句
+        // 还有第二个参数 variables ，可以帮我们传递拼接参数
+        // 如下在 语句名字后添加需要的参数，$ 开头，然后是我们的参数的名字
+        // 然后在 variables 中传入我们的参数即可，就不用我们自己拼了
+        // axios({
+        //     method: 'POST',
+        //     url: 'http://localhost:4444/articles',
+        //     data: {
+        //         query: `
+        //             query queryById ($id: ID!) {
+        //                 articles(id: $id) {
+        //                     id
+        //                     title
+        //                     body
+        //                 }
+        //             }
+        //         `,
+        //         variables: {
+        //             id: 1
+        //         }
+        //     }
+        // })
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+
+
+        // const id = 1
+        // axios({
+        //     method: 'POST',
+        //     url: 'http://localhost:4444/articles',
+        //     data: {
+        //         query: `
+        //             query queryById{
+        //                 articles(id: ${id}) {
+        //                     id
+        //                     title
+        //                     body
+        //                 }
+        //             }
+        //         `
+        //     }
+        // })
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+
+        // axios({
+        //     method: 'POST',
+        //     url: 'http://localhost:4444/articles',
+        //     data: {
+        //         query: `
+        //             query queryAll {
+        //                 articles {
+        //                     id
+        //                     title
+        //                     body
+        //                 }
+        //             }
+        //         `
+        //     }
+        // })
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+    </script>
+</body>
+</html>

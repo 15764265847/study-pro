@@ -209,3 +209,64 @@
             对返回的对象的 value 赋值是响应式的，即使赋值一个对象，这个对象也会被转换成响应时的，他内部判断后会调用reactive来进行转换
     
 ###  vite 实现原理
+
+
+### Vue3 script setup 语法 2021.9.26
+    - 关注官网说明 https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md
+        PS：因为并没有在 Vue3 的官网中说明，但是仓库下却有一个关于 script-setup 语法的文档
+
+### Vue3 jsx 语法
+    - 官网 JSX 地址 https://v3.cn.vuejs.org/guide/render-function.html#jsx
+    - 参考 https://github.com/vuejs/jsx-next
+
+### Vite 支持 jsx 语法
+    - 参考官网 
+        1. 功能部分 https://vitejs.cn/guide/features.html#vue 中 对 jsx 提供的支持
+        2. 插件部分 https://vitejs.cn/plugins/ 
+    - 提供了专门的插件 @vitejs/plugin-vue-jsx https://github.com/vitejs/vite/tree/main/packages/plugin-vue-jsx
+    - Vite 的配置文件中使用 node 模块，需要为其配置类型，安装 @types/node 即可
+
+### Vuex 4
+    - https://next.vuex.vuejs.org/zh/guide/typescript-support.html
+    - 目前 Vuex4 还没有很好地提供 TS 支持，官方说将在 Vuex5 中提供更好的 TS  支持
+
+### CSS 支持
+    - https://vitejs.cn/guide/features.html#css
+    - 预处理器全局变量支持 https://vitejs.cn/config/#css-preprocessoroptions
+    - 下面 additionalData 中的 【$injectedColor: orange;】注入到每个css以达到全局的目的，所以为了方便可以直接写成一个路径
+        即 内容为【@import "@/assets/var.[scss/less];"】，这样就可以一次性注入多个全局的css变量
+        这里其实与在每个单文件组件的style标签中 @import "@/assets/var.[scss/less]; 没有区别，只是现在不用每个写了，会自动给每个注入
+        export default {
+            css: {
+                preprocessorOptions: {
+                    scss: {
+                        additionalData: `$injectedColor: orange;`
+                    }
+                }
+            }
+        }
+
+
+### 关于针对某些类型的文件重新设定 eslint 规则
+    - .eslintrc.js 文件下 使用 overrides
+        module.exports={
+            overrides: [
+                // 这里是针对api下的所有的文件关闭 驼峰命名法 的规则
+                {
+                files: ['src/api/**/*.ts'],
+                rules: {
+                    camelcase: false
+                }
+                }
+            ]
+        }
+
+### 在 script setup 语法中导入 ts 的类型时，会抛出找不到具名的类型的错误
+    - 原因是因为 script setup 语法糖中，会默认所有的 import *** from 'xxx' 都是导入的值，而不会区分是否是类型
+    - 解决 import type { xxxType } from 'types/xxx.ts' ，所以在导入时需要显示的说明导入的是一个类型而不是值
+
+### 环境变量
+    - 可以使用 cross-env
+    - 也可以使用 https://vitejs.cn/guide/env-and-mode.html 其中的方式
+        - 即在根目录下新建 .env 文件使用
+

@@ -503,3 +503,148 @@ class D implements B{
     add(){console.log('类实现type')}
 }
 
+// TS中的工具类型
+// 1. Partial 将某个类型的属性全部变为可选的
+// 实现
+type Partial<T> = {
+    [p in keyof T]?: T[p]
+}
+// 使用
+
+interface Todo {
+    title: string;
+    description: string;
+}
+
+type Todo1 = Partial<Todo>
+
+// 2. Required 将某个类型的属性全部变为必选的
+// 实现
+// -? 表示移除可选项表示符 ?
+type Required<T> = {
+    [p in keyof T]-?: T[p]
+}
+
+interface Aodo {
+    title?: string;
+    description?: string;
+}
+type Aodo1 = Required<Aodo>
+
+// 3. Readonly 将某个类型的属性全部变为只读的
+// 实现
+// 如果将下面的 readonly 标识替换为 -readonly ，那就表示移除紫属性的 readonly 标识
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P]
+}
+
+// 4. Record
+// Record<K extends keyof any, T> 将 K 中所有的属性的值变为 T 类型
+// 实现
+type Record<K extends keyof any, T> = {
+    [P in K]: T
+}
+
+// 使用
+interface PageInfo {
+    title: string;
+}
+  
+type Page = "home" | "about" | "contact";
+
+const x: Record<Page, PageInfo> = {
+    about: { title: "about" },
+    contact: { title: "contact" },
+    home: { title: "home" }
+};
+
+// 5. Pick 移除不想要的属性或者是保留想要的属性
+// 场景：当前对象的类型比另一个对象的类型少了一个属性，那么此时我就可以使用该工具类型得到需要的类型
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P]
+}
+// 使用 
+interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+}
+  
+type TodoPreview = Pick<Todo, "title" | "completed">;
+  
+const todo: TodoPreview = {
+    title: "Clean room",
+    completed: false
+}
+
+// 6. Exclude 移除两个类型交集，并将剩余属性合并成一个行类型
+// 使用 
+type T0 = Exclude<"a" | "b" | "c", "a">; // "b" | "c"
+type T1 = Exclude<"a" | "b" | "c", "a" | "b">; // "c"
+type T2 = Exclude<string | number | (() => void), Function>; // string | number
+
+// 7. Extract 获取两个类型的交集形成一个新的类型
+// 使用 
+type T3 = Extract<"a" | "b" | "c", "a" | "f">; // "a"
+type T4 = Extract<string | number | (() => void), Function>; // () => void
+
+// 8. Omit 从类型 T 中移除与 K 相同的属性，从而形成一个新的类型
+// 使用 
+interface Bodo {
+    title: string;
+    description: string;
+    completed: boolean;
+  }
+  
+  type BodoPreview = Omit<Bodo, "description">;
+  
+  const bodo: BodoPreview = {
+    title: "Clean room",
+    completed: false
+  };
+
+// 9. NonNullable 过滤 T 中 null 或者 undefined
+type T5 = NonNullable<string | number | undefined>; // string | number
+type T6 = NonNullable<string[] | null | undefined>; // string[]
+
+// 10. ReturnType 用于获取函数的返回值的类型
+type T7 = ReturnType<() => string>; // string
+type T8 = ReturnType<(s: string) => void>; // void
+type T9 = ReturnType<<T>() => T>; // {}
+type T10 = ReturnType<<T extends U, U extends number[]>() => T>; // number[]
+type T11 = ReturnType<any>; // any
+type T12 = ReturnType<never>; // any
+
+// 11. InstanceType 获取构造函数类型的实例类型
+class CD {
+    x = 0;
+    y = 0;
+}
+  
+type T13 = InstanceType<typeof CD>; // CD
+type T14 = InstanceType<any>; // any
+type T15 = InstanceType<never>; // any
+
+// 12. ThisType 用于指定上下文对象的类型。
+interface Person {
+    name: string;
+    age: number;
+}
+
+const obj: ThisType<Person> = {
+  dosth() {
+    this.name // string
+  }
+}
+
+// 13. ThisType 用于获得函数的参数类型组成的元组类型。
+type U = Parameters<() => void>; // []
+type V = Parameters<typeof Array.isArray>; // [any]
+type W = Parameters<typeof parseInt>; // [string, (number | undefined)?]
+type X = Parameters<typeof Math.max>; // number[]
+
+// 12. ConstructorParameters 作用是提取构造函数类型的所有参数类型。它会生成具有所有参数类型的元组类型（如果 T 不是函数，则返回的是 never 类型）
+type O = ConstructorParameters<ErrorConstructor>; // [(string | undefined)?]
+type P = ConstructorParameters<FunctionConstructor>; // string[]
+type Q = ConstructorParameters<RegExpConstructor>; // [string, (string | undefined)?]
+

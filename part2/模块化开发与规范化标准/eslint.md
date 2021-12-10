@@ -154,3 +154,20 @@ stylelint的使用和eslint类似，配置文件类似'.stylelintrc'，其中配
                     }
                 }
     eslint-staged模块可以配合husky模块对我们的文件进行格式化并添加到暂存区
+
+### 使用 vue3 同时使用 VSCode 编辑器时，需要关闭 Vetur 插件，因为该插件是给 Vue2 使用的
+
+### vue3 vite + eslint
+    1. npx mrm@2 lint-staged 安装 lint-staged 并会初始化 husky 来创建 git 的钩子脚本
+		安装地址： https://www.npmjs.com/package/lint-staged 
+
+	2. vite-plugin-eslint vite的插件，用于在开发和构建的时候进行eslint验证
+        PS：目前vite还没有官方的插件，所以没有内置，只能通过自己找插件来使用
+
+### git commit 提交规范验证 2021.9.26
+    1. commitizen 以交互式的方式辅助生成符合规范的提交日志
+    2. commitlint 验证 commit 日志
+        - github地址: https://github.com/conventional-changelog/commitlint#getting-started
+    3. conventional-changelog 自动生成 CHANGELOG.md 文件
+    4. 内容可参考 https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html 阮一峰的这篇文章
+        PS：由于该文章时间较早，所以其中提到的一些包可能会修改名字或者地址或者仓库，一般来说修改后进入旧仓库，会有新仓库的地址
