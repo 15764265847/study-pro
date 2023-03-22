@@ -17,6 +17,7 @@
 
     RUN rm /etc/nginx/conf.d/default.conf
     
+    # copy 和 add 命令都是基于当前dockerfile所在目录的
     ADD default.conf /etc/nginx/conf.d/
 
     COPY  /click-cat/ /usr/share/nginx/html/

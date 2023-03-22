@@ -26,6 +26,18 @@
             2. 构造函数
                 - List list = new List.empty(growable: true); 不限长度的空列表
                 - List list = new List.filled(3, 0); 长度为 3，并且元素填充为 0
-        - 展开操作符，同 js 中的展开运算符 ，只有有 iterable(遍历器) 的才能使用 
+        - 展开操作符，同 js 中的展开运算符 ，只有有 iterator(遍历器) 的才能使用 
             1. var list = [1, 2, 3]; var list1 = [0, ...list]
+        - 遍历
+            1. forEach 同 js forEach
+            2. map 同 js map ，和 js 不同的是他返回的是一个 iterator(遍历器)，需要调用 toList 方法才能变成 List
+            3. where 返回满足条件的数据，同 js 的 filter 方法 ，他返回的也是一个 iterator(遍历器)
+            4. any 只要其中一项满足条件就返回 true ，同 js 的 some
+            5. every List 中的每一项都满足条件才会返回 true ，同 js 的 every
+            6. expand 数组摊平 ，功能类似 js 的 flat ，使用起来不太一样
+            7. fold 同 js 的 reduce 方法
+                - PS：var s = [1, 2, 3, 4].fold(2, (p, el) => p + el);使用该代码会报错
+                    因为 var 的动态类型，会导致后面运算报错
+                    结果是什么类型就应该用什么类型的声明，如下最终结果是整数类型 ，应该使用 int 声明的变量来接受返回值 
+                    int s = [1, 2, 3, 4].fold(2, (p, el) => p + el);
          
