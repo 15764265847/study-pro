@@ -3,3 +3,4 @@
 /yarn.lock
 /gulpDist
 /gulpTemp
+**/node_modules

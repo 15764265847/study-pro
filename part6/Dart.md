@@ -3,6 +3,21 @@
     - 变量默认值是 null，js 中不分配值的话，默认值是 undefined ，这一点套用 变量只是一个引用 来说，相对好理解
     - dart 变量不会进行隐式转换，即 if(null) 中 ，null 不会转换为 false
 
+### 变量声明
+    PS：初始化声明未赋值时，值为null，例 int a; // a == null
+    1. var 类似js中的var
+    2. final 和 const 常量，不可修改 
+        - const可以用来创建常量值，以及声明创建常量构造函数
+            var foo = const [];
+            foo = [42]; // Error: Constant variables can't be assigned a value.
+    3. late 延迟变量
+        - late String foo;
+            在某个特定的条件下，将其初始化 foo = '123';
+    4. 使用数据类型来声明变量
+        - list a = [];
+          int b = 10;
+          String c = '123';
+
 ### Dart 数据类型
     1. Number 有三个关键字描述
         - num 既可以是整数也可以是小数
@@ -293,10 +308,173 @@
                     }
                 }
                 ```
-        3. 访问修饰
+            + 常量构造函数，如果类生成的对象不会进行改变，那么我们可以使用常量构造函数是这些对象成为编译时常量
+                ```
+                    void main() {
+                        // 常量构造函数可以当做普通构造函数使用，使用了 new 之后常量构造函数就变成了普通构造函数
+                        var b1 = new Bird(2, 1);
+                        var b2 = new Bird(2, 1);
+                        print(b1 == b2); // false
+
+                        常量构造函数可以省略 new 关键字，但是过等同于使用了 new 关键字
+                        var b5 = Bird(2, 1);
+                        var b6 = Bird(2, 1);
+                        print(b5 == b6); // false
+
+                        // 正确使用方式是使用 const 关键字来生成对象
+                        var b3 = const Bird(2, 1);
+                        var b4 = const Bird(2, 1);
+                        print(b3 == b4); // true
+                    }
+                    class Bird {
+                        // 属性必须通过 final 声明
+                        final eyes;
+                        final mouse;
+
+                        // 常量构造函数必须通过 const 声明
+                        // 如果属性中有非 final 声明的就会报错
+                        // 常量构造函数后面不能加 {} 以及包含在 {} 之中的函数体，因为如果包含函数体那么就不能保证属性是一定不变的
+                        const Bird(this.eyes, this.mouse);
+                    }
+                ```
+            + 工厂构造函数
+                - 通过 factory 关键字声明，工厂构造函数不会自动生成实例，而是通过代码决定返回的实例
+                // 实际代码示例展示了一个单例模式
+                ```
+                    void main() {
+                        // 工厂构造函数不能够进行实例化操作
+                        Dog d1 = new Dog('jecy');
+                        print(d1.name); // The getter 'name' was called on null.
+                    }
+                    class Dog {
+                        String name;
+
+                        static Dog instance;
+
+                        // 工厂构造函数
+                        factory Dog([String name = 'candy']) {
+                            // 工厂构造函数不能使用 this 关键字
+                            // print(this.name); // 报错
+                            if (Dog.instance == null) {
+                            Dog.instance = new Dog.newSelf(name);
+                            } else {
+                            return Dog.instance;
+                            }
+                        }
+
+                        Dog.newSelf(this.name);
+                    }
+                ```
+        3. 访问修饰符
+            - dart类 中没有 TS 的 public protected private 三个修饰符 
+            - dart类 中默认的访问修饰符就是 public，不需要手动添加
+            - dart类 中 以 _ 开头的变量名就代表该变量是 私有的 (private)
+            - 只有把类单独抽离出去的时候 以 _ 开头的属性才会起作用，不会被直接访问 
+                > 例如把类单独封装到某一文件夹下，在主文件中 import
+                    * lib/Person.dart
+                    * import 'lib/Person.dart'
+                ```
+                    // lib/Person.dart
+                    class Person {
+                        String name;
+                        num _money = 100;
+                        Person(this.name);
+
+                        num getMoney () {
+                            return this._money;
+                        }
+                    }
+
+                    // 主文件
+                    import './Person.dart';
+                    void main() {
+                        var p1 = new Person('zhangsan');
+                        print(p1.name);
+                        // 如果类和main函数处于同一作用域，那么 _ 不起作用
+                        // 此处类和main处于同一文件下，视为同一作用域
+                        // print(p1._money); // 报错
+                        print(p1.getMoney());
+                    }
+                ```
         4. Getter Setter
+            * Getter 通过get关键字修饰的方法，可以像访问属性一样访问，类似js 的 class 中的 get 关键字
+            * Setter 通过set关键字修饰的方法，可以像设置属性一样赋值，类似js 的 class 中的 set 关键字
+            ```
+                void main() {
+                    var c1 = new Circle(10);
+                    c1.setR = 20;
+                    print(c1.area);
+                }
+
+                class Circle {
+                    final PI = 3.14159;
+                    num r;
+                    Circle(this.r);
+                    num get area {
+                        return this.r * this.r * this.PI;
+                    }
+
+                    set setR(val) {
+                        this.r = val;
+                    }
+                }
+            ```
         5. 初始化列表
+            1. 作用：在构造函数中设置属性默认值
+            2. 时机：在构造函数体执行之前执行
+            3. 语法：使用逗号分隔初始化表达式
+            4. 场景：常用于 final 常量的值
+            ```
+            void main() {
+                var p1 = new Point(1, 2, 3);
+                print(p1.z); // 3
+
+                var p2 = new Point.twoD(3, 4);
+                print(p2.z); // 0
+            }
+
+            class Rect {
+                num width;
+                num height;
+
+                // Rect([int width = 10, int height = 20]) {
+                //   this.width = width;
+                //   this.height = height;
+                //   print('width: $width, height: $height');
+                // }
+
+                // Rect({int width = 10, int height = 20}) {
+                //   this.width = width;
+                //   this.height = height;
+                //   print('width: $width, height: $height');
+                // }
+
+                Rect()
+                    : width = 10,
+                        height = 10 {
+                    this.width = width;
+                    this.height = height;
+                    print('width: $width, height: $height');
+                }
+            }
+
+            class Point {
+                double x, y, z;
+
+                Point(this.x, this.y, this.z);
+
+                // 初始化列表的特殊用法（重定向构造函数）
+                // 这种用法类似函数柯里化
+                Point.twoD(double x, double y) : this(x, y, 0);
+            }
+            ```
         6. static
+            - 用来指定静态成员
+            - 使用类名直接访问该属性
+            - 实例化比较消耗资源，声明静态属性，可以提高程序性能
+            - 静态方法不能访问非静态成员，非静态方法可以访问静态成员
+            - 静态方法中不能使用this。js中是可以使用的
+            - 不能使用this关键字访问静态属性。js中是可以访问的，访问到的 this 指向构造函数
         7. 元数据
 
 
