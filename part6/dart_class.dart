@@ -115,13 +115,161 @@
 //   Dog.newSelf(this.name);
 // }
 
-import './Person.dart';
+// import './Person.dart';
+
+// void main() {
+//   var p1 = new Person('zhangsan');
+//   print(p1.name);
+//   // 如果类和main函数处于同一作用域，那么 _ 不起作用
+//   // 此处类和main处于同一文件下，视为同一作用域
+//   // print(p1._money);
+//   print(p1.getMoney());
+// }
+
+// void main() {}
+
+// class Person {
+//   static String name = '123';
+
+//   static getName() {
+//     print(name);
+//   }
+// }
+
+// void main() {
+//   var a1 = new Apple();
+//   // 抽象类中的普通方法会被继承
+//   a1.info();
+// }
+
+// abstract class Mobile {
+//   String name;
+//   num price;
+
+//   // 声明抽象方法
+//   void call();
+//   void camera();
+//   void info() {
+//     print('随便输出一点东西');
+//   }
+// }
+
+// // 普通类继承抽象类必须实现抽象类中定义的所有抽象法，属性不是一定要实现的
+// class Apple extends Mobile {
+//   void call() {
+//     print('call');
+//   }
+
+//   void camera() {
+//     print('camera');
+//   }
+
+//   // viod aaa(); 此处报错，因为普通类中不能有抽象方法
+// }
+
+// void main() {
+//   var m = new Mobile(4, '10000万');
+
+//   m.arch('4nm');
+//   m.brand('三星');
+// }
+
+// abstract class Processor {
+//   num cores; // 芯片核数
+
+//   arch(String name); // 芯片制程
+// }
+
+// abstract class Camera {
+//   String resolution; // 像素
+
+//   brand(String name); // 品牌
+// }
+
+// class Mobile implements Processor, Camera {
+//   @override
+//   num cores = 10;
+
+//   @override
+//   String resolution = '10000万像素';
+
+//   Mobile(this.cores, this.resolution);
+
+//   @override
+//   arch(String name) {
+//     print('芯片制程：$name');
+//   }
+
+//   @override
+//   brand(String name) {
+//     print('品牌：$name');
+//   }
+// }
+
+// void main() {
+//   var m1 = new MyClass();
+
+//   m1.printA();
+//   m1.printB();
+//   // 重名属性或方法，后引入的会覆盖之前的
+//   print(m1.name);
+// }
+
+// class MixinA extends Object {
+//   // 类当做混入使用只能继承自 Object，默认也会继承自 Object，不能继承自其它的类
+//   String name = 'A';
+//   // MixinA(); 类当做混入使用不能添加构造函数
+//   printA() {
+//     print('A');
+//   }
+// }
+
+// mixin MixinB {
+//   String name = 'B';
+
+//   printB() {
+//     print('B');
+//   }
+// }
+
+// class MyClass with MixinA, MixinB {}
+
+// T getAnything<T>(T value) {
+//   return value;
+// }
+
+// class GenericsClass<T, S, P> {
+//   T a;
+//   Set b = new Set<S>();
+//   List c = <P>[];
+
+//   GenericsClass(this.a);
+
+//   addB(S val) {
+//     this.b.add(val);
+//   }
+
+//   addC(P val) {
+//     this.c.add(val);
+//   }
+// }
 
 void main() {
-  var p1 = new Person('zhangsan');
-  print(p1.name);
-  // 如果类和main函数处于同一作用域，那么 _ 不起作用
-  // 此处类和main处于同一文件下，视为同一作用域
-  // print(p1._money);
-  print(p1.getMoney());
+  var f1 = new FileCache<String>();
+  f1.getByKey('a');
+}
+
+abstract class Cache<T> {
+  getByKey(String key);
+  void setByKey(String key, T value);
+}
+
+class FileCache<T> implements Cache<T> {
+  FileCache();
+
+  @override
+  getByKey(String key) {}
+
+  @override
+  void setByKey(String key, T value) {}
 }

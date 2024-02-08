@@ -474,8 +474,210 @@
             - 实例化比较消耗资源，声明静态属性，可以提高程序性能
             - 静态方法不能访问非静态成员，非静态方法可以访问静态成员
             - 静态方法中不能使用this。js中是可以使用的
-            - 不能使用this关键字访问静态属性。js中是可以访问的，访问到的 this 指向构造函数
+            - 不能使用this关键字访问静态属性，但可以直接访问。js中是可以访问的，访问到的 this 指向构造函数
+            ```
+            void main() {}
+
+            class Person {
+                static String name = '123';
+                int ahe = 20;
+
+                static getName() {
+                    print(name);
+                    // print(age); // 静态方法不能访问非静态成员
+                }
+            }
+            ```
         7. 元数据
+            - 以 @ 开头，给代码添加一些额外信息，可以用在库、类、构造器、函数、参数或者变量声明前面
+            - @override 重写，某方法前添加后表示重写了父类中的方法
+            - @required 必填，用来注解命名参数，表示该参数必填
+            - @deprecated 弃用，类或者方法前面添加，表示该类或者方法已废弃不再建议使用
+        8. 继承
+            - 使用 extends 关键字
+        9. 抽象类
+            - 使用 abstract 修饰
+            - 抽象类的作用是充当普通类模板，约定一些必要要的属性和方法
+            - 抽象方法是指没有方法体的方法
+                > 抽象类一般都有抽象方法，也可以没有抽象法
+                > 普通类中不能有抽象方法
+            - 抽象类不能被实例化
+            - 抽象类可以被普通类继承 使用 extends 关键字
+                > 如果普通类继承抽象类，必须实现抽象类中所有的抽象方法
+            - 抽象类还可以充当接口被实现 implements 关键字
+                > 如果抽象类被当做接口实现的话，必须实现抽象类当中定义的所有的方法和属性
+            ```
+            void main() {
+            var a1 = new Apple();
+                // 抽象类中的普通方法会被继承
+                a1.info();
+            }
+
+            abstract class Mobile {
+                String name;
+                num price;
+
+                // 声明抽象方法
+                void call();
+                void camera();
+                void info() {
+                    print('随便输出一点东西');
+                }
+            }
+
+            // 普通类继承抽象类必须实现抽象类中定义的所有抽象方法，属性不是一定要实现的
+            class Apple extends Mobile {
+                void call() {
+                    print('call');
+                }
+
+                void camera() {
+                    print('camera');
+                }
+
+                // viod aaa(); 此处报错，因为普通类中不能有抽象方法
+            }
+            ```
+        10. 接口
+            - 接口在dart中就是一个类，只是用法不同
+                > java中的接口要使用interface关键字实现，dart不需要，js更是没有这个概念
+                > 接口可以是任意类，但是一般是使用抽象类作为接口
+            - 一个类可以实现多个接口，多个接口使用逗号分割
+                > class MyClass implements inteface1, interface2, ... { ... }
+                > 接口可以看成一个个小零件，类实现接口相当于是组装零件
+            - 普通类实现接口必须实现接口内定义的所有的属性和方法
+            ```
+            void main() {
+                var m = new Mobile(4, '10000万');
+
+                m.arch('4nm');
+                m.brand('三星');
+            }
+
+            abstract class Processor {
+                num cores; // 芯片核数
+
+                arch(String name); // 芯片制程
+            }
+
+            abstract class Camera {
+                String resolution; // 像素
+
+                brand(String name); // 品牌
+            }
+
+            class Mobile implements Processor, Camera {
+                @override
+                num cores = 10;
+
+                @override
+                String resolution = '10000万像素';
+
+                Mobile(this.cores, this.resolution);
+
+                @override
+                arch(String name) {
+                    print('芯片制程：$name');
+                }
+
+                @override
+                brand(String name) {
+                    print('品牌：$name');
+                }
+            }
+            ```
+        11. Mixin
+            - 混入是一段公共代码，混入有两种声明方式
+                * 将类当做混入使用 class MixinA { ... }
+                    > 作为 Mixin 的类只能继承自 Object，不能继承其他类
+                    > 作为 Mixin 的类不能有构造函数
+                * 使用 mixin 关键字声明 mixin MixinB { ... }
+            - Mixin 可以调代码复用率，普通类可以使用 with 来会用混入
+                > class A with MixinA, MixinB, ... { ... }
+            - 一次性使用多个混入时，后引入的混入会覆盖之前引入的重名属性或方法
+                > class A with MixinA, MixinB, ... { ... }，如果 MixinA MixinB 中都有 hello 方法，那么 MixinB 会覆盖 MixinA 的
+            ```
+            void main() {
+                var m1 = new MyClass();
+
+                m1.printA();
+                m1.printB();
+                // 重名属性或方法，后引入的会覆盖之前的
+                print(m1.name);
+            }
+
+            class MixinA extends Object {
+                // 类当做混入使用只能继承自 Object，默认也会继承自 Object，不能继承自其它的类
+                String name = 'A';
+                // MixinA(); 类当做混入使用不能添加构造函数
+                printA() {
+                    print('A');
+                }
+            }
+
+            mixin MixinB {
+                String name = 'B';
+
+                printB() {
+                    print('B');
+                }
+            }
+
+            class MyClass with MixinA, MixinB {}
+            ```
+        12. 泛型
+            - 泛型是在函数、类、接口中执行宽泛类型的语法
+                > 使用泛型的函数叫泛型函数，使用泛型的类叫泛型类，使用泛型的接口叫泛型接口
+            - 通常，在尖括号中，使用一个字母来代表类型，例如 E T S K V 等
+                > 返回类型 函数名 <输入类型>(参数类型 参数) { 函数体 }
+                > S getData<T, S>(T value) { return value; }
+            - 使用泛型可以减少重复的代码
+            - 泛型函数, 使用类似 TS 中的函数的泛型
+                ```
+                T getAnything<T>(T value) {
+                    return value;
+                }
+                ```
+            - 泛型类
+                ```
+                class GenericsClass<T, S, P> {
+                    T a;
+                    Set b = new Set<S>();
+                    List c = <P>[];
+
+                    GenericsClass(this.a);
+
+                    addB(S val) {
+                        this.b.add(val);
+                    }
+
+                    addC(P val) {
+                        this.c.add(val);
+                    }
+                }
+                ```
+            - 泛型接口
+                ```
+                void main() {
+                    var f1 = new FileCache<String>();
+                    f1.getByKey('a');
+                }
+
+                abstract class Cache<T> {
+                    getByKey(String key);
+                    void setByKey(String key, T value);
+                }
+
+                class FileCache<T> implements Cache<T> {
+                    FileCache();
+
+                    @override
+                    getByKey(String key) {}
+
+                    @override
+                    void setByKey(String key, T value) {}
+                }
+                ```
 
 
             
