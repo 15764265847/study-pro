@@ -235,7 +235,7 @@
 ### 九、Hot module replacement 热更新
     1、配置：
         1、devServer中配置hot:true
-        2、plugins中添加关于webpack内置插件HotModuleReplacementPlugin的使用即，plugins: [new webpack.HotModuleReplacementPlugin()]
+        2、plugins中添加关于webpack内置插件 HotModuleReplacementPlugin 的使用即，plugins: [new webpack.HotModuleReplacementPlugin()]
         PS：这里js模块的热更新需要我们自己手动做一些处理
             <!-- 原因：js模块的导出是无规律的，像vue等框架无需手动操作是因为vue-cli帮我们继承了操作的方案，另一个原因是使用了框架后，比如vue，它统一导出一个对象，所以他是有规律的 -->
 
