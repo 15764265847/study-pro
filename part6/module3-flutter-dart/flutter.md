@@ -145,6 +145,8 @@
   - const color.fromARGB(255, 66, 165, 245);
   - const color.fromRGBO(66, 165, 245, 1.0); O标识透明度，这种方式更接近 js 中的 rgba(66, 165, 245, 1.0)
   - Colors.red 通过英文直接声明
+
+#### 布局
 ##### Container
   - height width 如果不声明都是0，如果有内容的会自动被内容撑开
   - child 子元素
@@ -203,8 +205,6 @@
         ![img](./images/1709535090003.jpg.jpg)
         * 其中 android:usesCleartextTraffic="true" 表示 应用程序是否允许使用明文通讯 ，可以简单理解为是否可以使用 http 而不是必须使用 https ，当然明文通讯协议肯定不止是 http 一个，但 http 是当前应用最广泛的，true 表示 可以使用明文通讯
       - IOS 参考 https://blog.51cto.com/u_16213339/8767028 该地址
-
-#### 布局
 #### 按钮
 #### 图片
 #### 列表
